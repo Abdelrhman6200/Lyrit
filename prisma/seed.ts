@@ -37,136 +37,123 @@ type SeedProduct = {
 
 const PRECAUTIONS = "For external use only. Avoid contact with eyes; if contact occurs, rinse thoroughly with water. Discontinue use if irritation occurs. Patch test before first use. Keep out of reach of children.";
 
+/**
+ * Catalog aligned with the LYRIT photography set: three ranges (Argan Repair, Hydrating Rose,
+ * Volume Clarifying) × shampoo / conditioner / mask, plus oils, treatments and bundles.
+ * Ingredient lists are PLACEHOLDERS — LYRIT must supply the final INCI lists.
+ */
+const RANGE = {
+  argan: { name: "Argan Repair", tags: ["argan", "repair", "dry hair", "damaged hair"], scent: "warm, nutty argan" },
+  rose: { name: "Hydrating Rose", tags: ["rose", "hydrating", "normal hair", "dry hair"], scent: "soft rose" },
+  volume: { name: "Volume Clarifying", tags: ["volume", "clarifying", "fine hair", "oily scalp"], scent: "fresh mint and rosemary" },
+} as const;
+
+const rangeProducts = (key: keyof typeof RANGE, code: string, featured: { sh?: number; co?: number; ma?: number }): SeedProduct[] => {
+  const r = RANGE[key];
+  const slug = r.name.toLowerCase().replace(/ /g, "-");
+  return [
+    {
+      slug: `${slug}-shampoo`, name: `${r.name} Shampoo`, category: "shampoos", featured: featured.sh,
+      short: key === "argan" ? "A gentle, sulfate-free cleanser enriched with argan oil for dry and damaged hair."
+        : key === "rose" ? "A softly scented daily shampoo with rose water for normal to dry hair."
+        : "A refreshing clarifying shampoo that lifts away buildup for fine hair that needs lift.",
+      description: `The first step in the ${r.name} ritual. A rich lather cleanses hair and scalp while leaving lengths feeling soft and easy to manage.\n\nScented with ${r.scent}.`,
+      benefits: key === "argan" ? ["Sulfate-free cleansing", "Leaves hair feeling soft", "Suitable for coloured hair"]
+        : key === "rose" ? ["Gentle daily cleanse", "Delicate rose scent", "Easy detangling"]
+        : ["Removes product buildup", "Lightweight feel", "Refreshing mint notes"],
+      ingredients: "Aqua, Sodium Cocoyl Isethionate, Cocamidopropyl Betaine, Glycerin, Panthenol, Parfum, Citric Acid. (Placeholder — final INCI list to be supplied by LYRIT.)",
+      usage: `Massage into wet hair and scalp.\nRinse thoroughly. Repeat if desired.\nFollow with ${r.name} Conditioner.`,
+      tags: [...r.tags, "shampoo"],
+      variants: key === "argan"
+        ? [{ name: "250 ml", sku: `LY-SH-${code}-250`, price: 420, stock: 40 }, { name: "500 ml", sku: `LY-SH-${code}-500`, price: 690, compareAt: 760, stock: 18 }]
+        : [{ name: "250 ml", sku: `LY-SH-${code}-250`, price: key === "rose" ? 390 : 410, stock: key === "volume" ? 4 : 30 }],
+    },
+    {
+      slug: `${slug}-conditioner`, name: `${r.name} Conditioner`, category: "conditioners", featured: featured.co,
+      short: `A lightweight conditioner that detangles and softens — the second step of the ${r.name} ritual.`,
+      description: `A creamy conditioner that helps smooth the hair surface for a soft, manageable finish without weighing hair down.\n\nScented with ${r.scent}.`,
+      benefits: ["Detangles instantly", "Smooth, soft finish", "Lightweight"],
+      ingredients: "Aqua, Cetearyl Alcohol, Behentrimonium Chloride, Glycerin, Panthenol, Parfum. (Placeholder.)",
+      usage: "After shampooing, apply to mid-lengths and ends.\nLeave for 2–3 minutes, then rinse.",
+      tags: [...r.tags, "conditioner"],
+      variants: [{ name: "250 ml", sku: `LY-CO-${code}-250`, price: 440, stock: 25 }, { name: "500 ml", sku: `LY-CO-${code}-500`, price: 720, stock: 10 }],
+    },
+    {
+      slug: `${slug}-mask`, name: `${r.name} Mask`, category: "hair-masks", featured: featured.ma,
+      short: `A rich weekly treatment mask from the ${r.name} range.`,
+      description: `An indulgent conditioning mask for a weekly ritual. Leaves hair feeling softer, smoother and more manageable.\n\nScented with ${r.scent}.`,
+      benefits: ["Intensive conditioning", "Softer, smoother lengths", "Weekly ritual"],
+      ingredients: "Aqua, Cetearyl Alcohol, Butyrospermum Parkii (Shea) Butter, Glycerin, Hydrolyzed Protein, Parfum. (Placeholder.)",
+      usage: "Apply generously to clean, damp hair.\nLeave for 5–10 minutes, then rinse thoroughly.",
+      tags: [...r.tags, "mask"],
+      variants: [{ name: "200 ml", sku: `LY-MA-${code}-200`, price: 560, stock: key === "volume" ? 0 : 18 }],
+    },
+  ];
+};
+
 const PRODUCTS: SeedProduct[] = [
+  ...rangeProducts("argan", "ARG", { sh: 1, ma: 4 }),
+  ...rangeProducts("rose", "ROS", { sh: 5, co: 6 }),
+  ...rangeProducts("volume", "VOL", { co: 8 }),
   {
-    slug: "argan-repair-shampoo", name: "Argan Repair Shampoo", category: "shampoos", featured: 1,
-    short: "A gentle, sulfate-free cleanser enriched with argan oil for dry and damaged hair.",
-    description: "Our signature shampoo lifts away impurities while helping hair feel soft and replenished.\n\nFormulated for everyday use on dry, coloured or heat-styled hair.",
-    benefits: ["Sulfate-free cleansing", "Leaves hair feeling soft", "Suitable for coloured hair", "Light, natural fragrance"],
-    ingredients: "Aqua, Sodium Cocoyl Isethionate, Cocamidopropyl Betaine, Argania Spinosa (Argan) Kernel Oil, Glycerin, Panthenol, Parfum, Citric Acid. (Placeholder — final INCI list to be supplied by LYRIT.)",
-    usage: "Massage into wet hair and scalp.\nRinse thoroughly. Repeat if desired.\nFollow with Silk Smooth Conditioner.",
-    tags: ["argan", "dry hair", "repair", "sulfate-free"],
-    variants: [{ name: "250 ml", sku: "LY-SH-ARG-250", price: 420, stock: 40 }, { name: "500 ml", sku: "LY-SH-ARG-500", price: 690, compareAt: 760, stock: 18 }],
-  },
-  {
-    slug: "hydrating-rose-shampoo", name: "Hydrating Rose Shampoo", category: "shampoos", featured: 5,
-    short: "A softly scented shampoo with rose water for normal to dry hair.",
-    description: "A delicate daily cleanser that leaves hair fresh, light and easy to detangle.",
-    benefits: ["Gentle daily cleanse", "Delicate rose scent", "Easy detangling"],
-    ingredients: "Aqua, Rosa Damascena Flower Water, Decyl Glucoside, Glycerin, Aloe Barbadensis Leaf Juice, Parfum. (Placeholder.)",
-    usage: "Apply to wet hair, lather and rinse.",
-    tags: ["rose", "hydrating", "daily"],
-    variants: [{ name: "250 ml", sku: "LY-SH-ROS-250", price: 390, stock: 32 }],
-  },
-  {
-    slug: "volume-clarifying-shampoo", name: "Volume Clarifying Shampoo", category: "shampoos",
-    short: "A refreshing clarifying shampoo for fine hair that needs lift.",
-    description: "Removes styling residue and buildup to help fine hair feel lighter and fuller.",
-    benefits: ["Removes product buildup", "Lightweight feel", "Refreshing mint notes"],
-    ingredients: "Aqua, Coco-Glucoside, Mentha Piperita Oil, Citric Acid, Glycerin. (Placeholder.)",
-    usage: "Use once or twice a week in place of your regular shampoo.",
-    tags: ["volume", "fine hair", "clarifying"],
-    variants: [{ name: "250 ml", sku: "LY-SH-VOL-250", price: 410, stock: 3 }],
-  },
-  {
-    slug: "silk-smooth-conditioner", name: "Silk Smooth Conditioner", category: "conditioners", featured: 2,
-    short: "A lightweight conditioner that detangles and softens without weighing hair down.",
-    description: "A creamy conditioner that helps smooth the hair surface for a soft, silky finish.",
-    benefits: ["Detangles instantly", "Smooth, soft finish", "Lightweight"],
-    ingredients: "Aqua, Cetearyl Alcohol, Behentrimonium Chloride, Argania Spinosa Kernel Oil, Panthenol, Parfum. (Placeholder.)",
-    usage: "After shampooing, apply to mid-lengths and ends.\nLeave for 2–3 minutes, then rinse.",
-    tags: ["smooth", "detangle", "argan"],
-    variants: [{ name: "250 ml", sku: "LY-CO-SLK-250", price: 440, stock: 35 }, { name: "500 ml", sku: "LY-CO-SLK-500", price: 720, stock: 12 }],
-  },
-  {
-    slug: "nourishing-leave-in-conditioner", name: "Nourishing Leave-In Conditioner", category: "conditioners",
-    short: "A light leave-in spray for daily softness and easy styling.",
-    description: "Mist onto damp or dry hair to help detangle and add softness throughout the day.",
-    benefits: ["No-rinse formula", "Helps detangle", "Light hold-free finish"],
-    ingredients: "Aqua, Glycerin, Hydrolyzed Wheat Protein, Panthenol, Parfum. (Placeholder.)",
-    usage: "Spray onto towel-dried hair and comb through. Do not rinse.",
-    tags: ["leave-in", "detangle", "daily"],
-    variants: [{ name: "150 ml", sku: "LY-CO-LVI-150", price: 380, stock: 0 }],
-  },
-  {
-    slug: "golden-argan-hair-oil", name: "Golden Argan Hair Oil", category: "hair-oils", featured: 3,
+    slug: "argan-hair-oil", name: "Argan Hair Oil", category: "hair-oils", featured: 2,
     short: "A lightweight finishing oil for shine and softness.",
-    description: "A silky blend of argan and jojoba oils that absorbs quickly to tame flyaways and add gloss.",
+    description: "A silky argan oil blend that absorbs quickly to tame flyaways and add gloss without a greasy finish.",
     benefits: ["Adds shine", "Tames flyaways", "Non-greasy finish"],
-    ingredients: "Argania Spinosa Kernel Oil, Simmondsia Chinensis (Jojoba) Seed Oil, Tocopherol, Parfum. (Placeholder.)",
+    ingredients: "Argania Spinosa (Argan) Kernel Oil, Simmondsia Chinensis (Jojoba) Seed Oil, Tocopherol, Parfum. (Placeholder.)",
     usage: "Warm 2–3 drops between palms and smooth over mid-lengths and ends of damp or dry hair.",
-    tags: ["argan", "shine", "oil", "frizz"],
+    tags: ["argan", "oil", "shine", "frizz"],
     variants: [{ name: "50 ml", sku: "LY-OI-ARG-050", price: 520, stock: 25 }, { name: "100 ml", sku: "LY-OI-ARG-100", price: 880, compareAt: 980, stock: 10 }],
   },
   {
-    slug: "rosemary-growth-oil", name: "Rosemary Scalp Oil", category: "hair-oils", featured: 6,
-    short: "A pre-wash scalp oil with rosemary for a nourishing massage ritual.",
-    description: "Massage into the scalp before washing as part of a relaxing weekly ritual.",
-    benefits: ["Pre-wash scalp massage", "Herbal rosemary aroma", "Lightweight blend"],
-    ingredients: "Ricinus Communis (Castor) Seed Oil, Rosmarinus Officinalis Leaf Oil, Argania Spinosa Kernel Oil, Tocopherol. (Placeholder.)",
-    usage: "Massage a few drops into the scalp. Leave for at least 30 minutes, then shampoo.",
-    tags: ["rosemary", "scalp", "oil"],
-    variants: [{ name: "50 ml", sku: "LY-OI-ROS-050", price: 460, stock: 22 }],
+    slug: "rose-hair-oil", name: "Rose Hair Oil", category: "hair-oils", featured: 7,
+    short: "A delicate rose-scented oil for soft, glossy lengths.",
+    description: "A light floral oil blend for a soft, glossy finish and a lingering rose scent.",
+    benefits: ["Glossy finish", "Delicate rose scent", "Lightweight"],
+    ingredients: "Prunus Amygdalus Dulcis (Sweet Almond) Oil, Rosa Canina Fruit Oil, Tocopherol, Parfum. (Placeholder.)",
+    usage: "Smooth 2–3 drops through mid-lengths and ends.",
+    tags: ["rose", "oil", "shine"],
+    variants: [{ name: "50 ml", sku: "LY-OI-ROS-050", price: 490, stock: 20 }],
   },
   {
-    slug: "deep-repair-hair-mask", name: "Deep Repair Hair Mask", category: "hair-masks", featured: 4,
-    short: "A rich weekly mask for dry, stressed lengths.",
-    description: "An indulgent conditioning treatment that helps hair feel stronger, softer and more manageable.",
-    benefits: ["Intensive conditioning", "Softer, smoother lengths", "Weekly ritual"],
-    ingredients: "Aqua, Cetearyl Alcohol, Butyrospermum Parkii (Shea) Butter, Argania Spinosa Kernel Oil, Hydrolyzed Keratin, Parfum. (Placeholder.)",
-    usage: "Apply generously to clean, damp hair.\nLeave for 5–10 minutes, then rinse thoroughly.",
-    tags: ["repair", "mask", "dry hair", "keratin"],
-    variants: [{ name: "200 ml", sku: "LY-MA-REP-200", price: 560, stock: 20 }],
-  },
-  {
-    slug: "shea-butter-moisture-mask", name: "Shea Butter Moisture Mask", category: "hair-masks",
-    short: "A creamy shea butter mask for thick or curly hair.",
-    description: "A cushiony mask that helps define and soften curls and coils.",
-    benefits: ["Rich moisture", "Curl-friendly", "Softening"],
-    ingredients: "Aqua, Butyrospermum Parkii Butter, Cocos Nucifera Oil, Glycerin, Parfum. (Placeholder.)",
-    usage: "Apply to damp hair, leave for 10 minutes, rinse.",
-    tags: ["shea", "curly", "moisture"],
-    variants: [{ name: "200 ml", sku: "LY-MA-SHE-200", price: 540, stock: 14 }],
-  },
-  {
-    slug: "keratin-bond-treatment", name: "Keratin Bond Treatment", category: "hair-treatments", featured: 7,
-    short: "A leave-in treatment cream for heat-styled hair.",
-    description: "A lightweight cream applied before styling to help protect and smooth hair.",
-    benefits: ["Use before heat styling", "Smoothing", "Lightweight cream"],
-    ingredients: "Aqua, Hydrolyzed Keratin, Cetearyl Alcohol, Panthenol, Parfum. (Placeholder.)",
-    usage: "Apply to towel-dried hair before blow-drying or styling.",
-    tags: ["keratin", "heat", "treatment"],
-    variants: [{ name: "100 ml", sku: "LY-TR-KER-100", price: 650, stock: 16 }],
-  },
-  {
-    slug: "scalp-renewal-serum", name: "Scalp Renewal Serum", category: "hair-treatments",
-    short: "A refreshing, lightweight serum for scalp care.",
-    description: "A water-light serum that leaves the scalp feeling fresh and comfortable.",
+    slug: "scalp-tonic", name: "Scalp Tonic", category: "hair-treatments",
+    short: "A refreshing, lightweight tonic for daily scalp care.",
+    description: "A water-light mist that leaves the scalp feeling fresh and comfortable.",
     benefits: ["Refreshing feel", "Non-greasy", "Daily use"],
-    ingredients: "Aqua, Niacinamide, Panthenol, Mentha Piperita Oil. (Placeholder.)",
-    usage: "Apply a few drops directly to the scalp and massage gently. Do not rinse.",
-    tags: ["scalp", "serum", "treatment"],
-    variants: [{ name: "50 ml", sku: "LY-TR-SCA-050", price: 590, stock: 9 }],
+    ingredients: "Aqua, Niacinamide, Panthenol, Rosmarinus Officinalis Leaf Extract. (Placeholder.)",
+    usage: "Mist directly onto the scalp and massage gently. Do not rinse.",
+    tags: ["scalp", "tonic", "treatment", "rosemary"],
+    variants: [{ name: "100 ml", sku: "LY-TR-SCA-100", price: 590, stock: 9 }],
   },
   {
-    slug: "complete-ritual-bundle", name: "The Complete Ritual", category: "bundles", featured: 8,
-    short: "Shampoo, conditioner, mask and oil — a full LYRIT routine.",
-    description: "Our four best-loved essentials, curated as one complete hair care ritual. Makes a beautiful gift.",
-    benefits: ["Complete routine", "Value set", "Gift-ready packaging"],
-    ingredients: "See individual products.",
-    usage: "Shampoo, condition, mask weekly and finish with oil.",
-    tags: ["bundle", "gift", "routine"],
-    variants: [{ name: "4-piece set", sku: "LY-BU-RIT-004", price: 1690, compareAt: 1940, stock: 8 }],
+    slug: "heat-protect-spray", name: "Heat Protect Spray", category: "hair-treatments", featured: 3,
+    short: "A light pre-styling mist for blow-drying and hot tools.",
+    description: "Mist onto damp hair before heat styling for a smooth, soft finish.",
+    benefits: ["Use before heat styling", "Smoothing", "Lightweight mist"],
+    ingredients: "Aqua, Hydrolyzed Wheat Protein, Panthenol, Glycerin, Parfum. (Placeholder.)",
+    usage: "Spray evenly over damp hair before blow-drying or styling.",
+    tags: ["heat", "styling", "spray", "treatment"],
+    variants: [{ name: "150 ml", sku: "LY-TR-HPS-150", price: 520, stock: 16 }],
   },
   {
-    slug: "repair-duo-bundle", name: "Repair Duo", category: "bundles",
-    short: "Argan Repair Shampoo and Deep Repair Hair Mask.",
-    description: "A simple two-step routine for dry, stressed hair.",
-    benefits: ["Two-step routine", "Value pairing"],
+    slug: "argan-repair-ritual", name: "Argan Repair Ritual", category: "bundles",
+    short: "Argan Repair Shampoo, Argan Repair Mask and Argan Hair Oil.",
+    description: "A complete three-step ritual for dry, stressed hair — cleanse, treat and finish.",
+    benefits: ["Three-step routine", "Value set", "Gift-ready"],
     ingredients: "See individual products.",
-    usage: "Use the shampoo daily and the mask weekly.",
-    tags: ["bundle", "repair"],
-    variants: [{ name: "2-piece set", sku: "LY-BU-REP-002", price: 890, compareAt: 980, stock: 11 }],
+    usage: "Shampoo, mask weekly and finish with oil.",
+    tags: ["bundle", "gift", "argan", "repair"],
+    variants: [{ name: "3-piece set", sku: "LY-BU-ARG-003", price: 1390, compareAt: 1500, stock: 10 }],
+  },
+  {
+    slug: "complete-collection", name: "The Complete Collection", category: "bundles",
+    short: "The full LYRIT collection — a gift for the hair care lover.",
+    description: "Every LYRIT essential in one beautiful set. Makes a memorable gift.",
+    benefits: ["Full collection", "Best value", "Gift-ready packaging"],
+    ingredients: "See individual products.",
+    usage: "Build your own ritual from the full range.",
+    tags: ["bundle", "gift", "collection"],
+    variants: [{ name: "Full set", sku: "LY-BU-ALL-001", price: 5900, compareAt: 7100, stock: 5 }],
   },
 ];
 
@@ -217,7 +204,8 @@ async function main() {
   for (const p of PRODUCTS) {
     const existing = await db.product.findUnique({ where: { slug: p.slug } });
     if (existing) continue;
-    const product = await db.product.create({
+    await db.$transaction(async (tx) => {
+    const product = await tx.product.create({
       data: {
         slug: p.slug,
         name: p.name,
@@ -235,14 +223,14 @@ async function main() {
         categories: { create: [{ categoryId: catIds[p.category] }] },
         images: {
           create: [
-            { url: img(`/images/photos/products/${p.slug}-1.webp`, `/images/products/${p.slug}-1.svg`), altText: `${p.name} bottle`, sortOrder: 0 },
-            { url: img(`/images/photos/products/${p.slug}-2.webp`, `/images/products/${p.slug}-2.svg`), altText: `${p.name} alternate view`, sortOrder: 1 },
+            { url: img(`/images/photos/products/${p.slug}-1.webp`, "/images/placeholder.svg"), altText: `${p.name} by LYRIT`, sortOrder: 0 },
+            { url: img(`/images/photos/products/${p.slug}-2.webp`, "/images/placeholder.svg"), altText: `${p.name} styled with natural ingredients`, sortOrder: 1 },
           ],
         },
       },
     });
     for (const [i, v] of p.variants.entries()) {
-      const variant = await db.productVariant.create({
+      const variant = await tx.productVariant.create({
         data: {
           productId: product.id,
           sku: v.sku,
@@ -254,9 +242,14 @@ async function main() {
           sortOrder: i,
         },
       });
-      if (v.stock > 0) await db.inventoryMovement.create({ data: { variantId: variant.id, delta: v.stock, balance: v.stock, reason: "INITIAL", note: "Seed" } });
+      if (v.stock > 0) await tx.inventoryMovement.create({ data: { variantId: variant.id, delta: v.stock, balance: v.stock, reason: "INITIAL", note: "Seed" } });
     }
+    });
   }
+
+  const keep = PRODUCTS.map((p) => p.slug);
+  const archived = await db.product.updateMany({ where: { slug: { notIn: keep }, status: { not: "ARCHIVED" }, variants: { some: { sku: { startsWith: "LY-" } } } }, data: { status: "ARCHIVED", isFeatured: false } });
+  if (archived.count) console.log(`Archived ${archived.count} product(s) no longer in the seed catalog.`);
 
   // Shipping zones
   if ((await db.shippingZone.count()) === 0) {
@@ -283,7 +276,7 @@ async function main() {
 
   // Content
   const blocks: { key: string; type: string; data: Prisma.InputJsonValue; sortOrder?: number }[] = [
-    { key: "announcement", type: "announcement", data: { messages: [{ text: "Free delivery in Cairo & Giza on orders over EGP 1,000", href: "/shipping-returns" }, { text: "Cash on delivery available across Egypt" }, { text: "New: The Complete Ritual gift set", href: "/products/complete-ritual-bundle" }] } },
+    { key: "announcement", type: "announcement", data: { messages: [{ text: "Free delivery in Cairo & Giza on orders over EGP 1,000", href: "/shipping-returns" }, { text: "Cash on delivery available across Egypt" }, { text: "New: The Complete Collection gift set", href: "/products/complete-collection" }] } },
     {
       key: "hero",
       type: "hero",
@@ -293,9 +286,9 @@ async function main() {
         description: "Discover thoughtful hair care designed to nourish, strengthen, and restore your hair's natural beauty.",
         primaryCta: { label: "Shop Now", href: "/shop" },
         secondaryCta: { label: "Explore treatments", href: "/collections/hair-treatments" },
-        imageDesktop: "/images/hero.svg",
+        imageDesktop: img("/images/photos/hero.webp", "/images/hero.svg"),
         imageMobile: "",
-        imageAlt: "LYRIT shampoo, hair oil and hair mask arranged together",
+        imageAlt: "LYRIT Argan Repair Shampoo, Mask and Hair Oil on stone",
       },
     },
     {
@@ -310,8 +303,8 @@ async function main() {
         ],
       },
     },
-    { key: "promo-treatments", type: "promo", sortOrder: 0, data: { eyebrow: "Targeted care", headline: "Treatments for every hair story", description: "From pre-styling creams to scalp serums — focused care for the results you want.", cta: { label: "Shop treatments", href: "/collections/hair-treatments" }, image: "/images/promo-treatments.svg", imageAlt: "LYRIT treatment bottle", theme: "beige" } },
-    { key: "promo-bundles", type: "promo", sortOrder: 1, data: { eyebrow: "Gift sets", headline: "The Complete Ritual", description: "Four essentials, one beautiful routine. Save when you shop the set.", cta: { label: "Shop bundles", href: "/collections/bundles" }, image: "/images/promo-bundles.svg", imageAlt: "LYRIT bundle of hair care products", theme: "green" } },
+    { key: "promo-treatments", type: "promo", sortOrder: 0, data: { eyebrow: "Targeted care", headline: "Treatments for every hair story", description: "From scalp tonic to heat protection — focused care for the results you want.", cta: { label: "Shop treatments", href: "/collections/hair-treatments" }, image: img("/images/photos/promo-treatments.webp", "/images/promo-treatments.svg"), imageAlt: "Argan nuts, rose petals and botanicals", theme: "beige" } },
+    { key: "promo-bundles", type: "promo", sortOrder: 1, data: { eyebrow: "Gift sets", headline: "The Complete Collection", description: "Every LYRIT essential in one beautiful set. Save when you shop the collection.", cta: { label: "Shop bundles", href: "/collections/bundles" }, image: img("/images/photos/promo-bundles.webp", "/images/promo-bundles.svg"), imageAlt: "The full LYRIT hair care collection", theme: "green" } },
   ];
   for (const b of blocks) {
     await db.contentBlock.upsert({ where: { key: b.key }, create: { ...b, sortOrder: b.sortOrder ?? 0 }, update: {} });

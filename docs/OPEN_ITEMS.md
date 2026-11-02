@@ -6,7 +6,7 @@
 | 2 | Transactional email provider | `EMAIL_TRANSPORT=console`. Add an adapter in `features/notifications/email.ts` (Resend/Postmark/SES/SMTP). Sending is already deduped and logged. |
 | 3 | Newsletter / marketing provider | Subscribers are stored with consent timestamps. Syncing to a provider is not built yet. |
 | 4 | Languages (Arabic/RTL) | English only. Needs a decision, then i18n routing, translated content fields, an Arabic font pair and RTL QA. |
-| 5 | Brand assets, photography, copy | All imagery is generated SVG placeholders, and copy, prices and ingredients are placeholders. Replace them via the admin. |
+| 5 | Brand assets, photography, copy | Product, category and homepage images are low-resolution AI-generated placeholders (see PHOTO_SHOT_LIST.md). Copy, prices and ingredients are placeholders too. |
 | 6 | Policies (shipping, returns, privacy, terms) | Placeholder text, editable in Admin → Storefront content. |
 | 7 | Shipping coverage & fees | Sample zones (Cairo/Giza, Delta, rest of Egypt). Configure in Admin → Shipping. |
 | 8 | Product claims | No unverified claims are shown. Review every benefit line before launch. |

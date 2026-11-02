@@ -3,7 +3,6 @@
 import { mkdirSync, writeFileSync } from "fs";
 
 const out = "public/images";
-mkdirSync(`${out}/products`, { recursive: true });
 mkdirSync(`${out}/categories`, { recursive: true });
 
 const bg = ["#E9DED0", "#EFE6DA", "#E4D8C6", "#F1EBE1", "#DCCFBC"];
@@ -50,10 +49,7 @@ export const PRODUCTS = [
   ["repair-duo-bundle", "bundle", "#C9B49A", "#173D2F", "#F8F5EF", "Repair Duo"],
 ];
 
-PRODUCTS.forEach(([slug, kind, body, cap, label, name], i) => {
-  writeFileSync(`${out}/products/${slug}-1.svg`, frame(bottle({ kind, body, cap, label, name }), bg[i % bg.length]));
-  writeFileSync(`${out}/products/${slug}-2.svg`, frame(bottle({ kind, body: cap, cap: body, label: body === "#F8F5EF" ? "#F8F5EF" : label, name }), bg[(i + 2) % bg.length]));
-});
+// Product imagery is now real photography (public/images/photos). PRODUCTS is kept for reference only.
 
 const cats = [["shampoos", "shampoo", "#173D2F"], ["conditioners", "conditioner", "#C9B49A"], ["hair-oils", "oil", "#B88A4A"], ["hair-masks", "mask", "#F8F5EF"], ["hair-treatments", "treatment", "#282522"], ["bundles", "bundle", "#173D2F"]];
 cats.forEach(([slug, kind, body], i) => {

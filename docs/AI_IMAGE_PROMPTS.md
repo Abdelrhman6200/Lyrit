@@ -216,3 +216,6 @@ Landscape 4:3 photo. Four LYRIT hair care products in an open ivory gift box on 
 ```
 Portrait 4:5 photo. Back view of a woman with long, glossy, healthy dark hair in soft daylight, wearing an ivory linen top, face not visible; a LYRIT oil bottle on a shelf beside her, softly out of focus. Warm ivory and beige tones. Photorealistic professional product photography, shot on a full-frame camera with a 100mm macro lens, soft natural window daylight from the left, gentle realistic shadow. Premium minimalist beauty-brand aesthetic, editorial, generous negative space. Colour palette: warm ivory (#F8F5EF), soft beige (#E9DED0), sand (#C9B49A), with deep forest-green (#173D2F) accents. Packaging is matte and minimal with a small elegant serif wordmark "LYRIT" and the product name in small sans-serif capitals. No other logos, no extra text, no watermarks. Not 3D, not illustration, not CGI — real photograph.
 ```
+
+---
+**Note:** the catalog now follows the product line from the first ChatGPT image set. That's 3 ranges (Argan Repair, Hydrating Rose, Volume Clarifying), each with a shampoo, conditioner and mask, plus Argan Hair Oil, Rose Hair Oil, Scalp Tonic, Heat Protect Spray and 2 bundles. The full list and file names are in [PHOTO_SHOT_LIST.md](PHOTO_SHOT_LIST.md). Adapt the prompts above to those names when regenerating at high resolution.
