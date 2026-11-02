@@ -1,0 +1,32 @@
+name: CI
+on:
+  push:
+  pull_request:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env: { POSTGRES_USER: lyrit, POSTGRES_PASSWORD: lyrit, POSTGRES_DB: lyrit_test }
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U lyrit" --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      DATABASE_URL: postgresql://lyrit:lyrit@localhost:5432/lyrit_test?schema=public
+      APP_URL: http://localhost:3000
+      AUTH_SECRET: ci-secret
+      PAYMENT_WEBHOOK_SECRET: ci-webhook
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - run: npm ci
+      - run: npx prisma migrate deploy
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm test
+      - run: npm run build
+      - name: Dependency audit (advisory until the planned zod 4 / Next 16 / Prisma 7 upgrade)
+        run: npm audit --omit=dev --audit-level=high
+        continue-on-error: true

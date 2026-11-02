@@ -1,0 +1,75 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ivory: #F8F5EF;
+  --color-beige: #E9DED0;
+  --color-sand: #C9B49A;
+  --color-forest: #173D2F;
+  --color-forest-700: #1F4D3C;
+  --color-charcoal: #282522;
+  --color-muted: #6F5B4E; /* darker than proposed #8C7464 to meet WCAG AA on ivory */
+  --color-line: #E4DACB;
+  --color-danger: #A33A2B;
+  --color-success: #2F6B4F;
+
+  --font-serif: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
+  --font-sans: var(--font-dm-sans), "DM Sans", system-ui, sans-serif;
+
+  --radius-card: 1rem;
+  --animate-fade-up: fade-up 0.5s ease-out both;
+  --animate-shimmer: shimmer 1.6s linear infinite;
+
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes shimmer {
+    from { background-position: -400px 0; }
+    to { background-position: 400px 0; }
+  }
+}
+
+@layer base {
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    @apply bg-ivory text-charcoal font-sans antialiased;
+  }
+  h1, h2, h3, h4 { @apply font-serif font-medium tracking-tight; }
+  :focus-visible { outline: 2px solid var(--color-forest); outline-offset: 2px; border-radius: 4px; }
+  ::selection { background: var(--color-beige); }
+}
+
+/* Reusable design-system classes (Tailwind v4 custom utilities). */
+@utility container-page { @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8; }
+@utility btn { @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-medium tracking-wide transition-colors duration-200 disabled:cursor-not-allowed disabled:opacity-50 min-h-11; }
+@utility btn-primary { @apply btn bg-forest text-white hover:bg-forest-700; }
+@utility btn-secondary { @apply btn border border-charcoal/20 bg-white text-charcoal hover:border-forest hover:text-forest; }
+@utility btn-ghost { @apply btn px-3 text-charcoal hover:bg-beige/60; }
+@utility input { @apply block w-full rounded-lg border border-line bg-white px-4 py-3 text-base text-charcoal placeholder:text-muted/70 focus:border-forest focus:outline-none focus:ring-1 focus:ring-forest aria-[invalid=true]:border-danger; }
+@utility label { @apply mb-1.5 block text-sm font-medium text-charcoal; }
+@utility field-error { @apply mt-1 text-sm text-danger; }
+@utility eyebrow { @apply text-xs font-medium uppercase tracking-[0.2em] text-muted; }
+@utility card { @apply rounded-[var(--radius-card)] bg-white; }
+@utility skeleton {
+  @apply rounded-md bg-beige/70;
+  background-image: linear-gradient(90deg, transparent 0, rgba(255,255,255,.5) 50%, transparent 100%);
+  background-size: 400px 100%;
+  animation: var(--animate-shimmer);
+}
+
+@layer components {
+  .prose-lyrit { @apply max-w-none text-[15px] leading-7 text-charcoal/90; }
+  .prose-lyrit h2 { @apply mt-8 mb-3 text-2xl; }
+  .prose-lyrit p { @apply mb-4; }
+  .prose-lyrit ul { @apply mb-4 list-disc pl-5; }
+  .prose-lyrit a { @apply text-forest underline underline-offset-2; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

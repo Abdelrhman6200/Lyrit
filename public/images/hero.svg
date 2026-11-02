@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 900" preserveAspectRatio="xMidYMid slice">
+<defs><radialGradient id="g" cx="50%" cy="40%" r="70%"><stop offset="0" stop-color="#FFFFFF" stop-opacity=".55"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></radialGradient></defs>
+<rect width="100%" height="100%" fill="#E4D8C6"/><rect width="100%" height="100%" fill="url(#g)"/>
+<ellipse cx="500" cy="657" rx="320" ry="22.5" fill="#000" opacity=".08"/>
+<g transform="translate(150 60)"><rect x="300" y="250" width="200" height="420" rx="40" fill="#173D2F"/><rect x="345" y="190" width="110" height="70" rx="12" fill="#C9B49A"/><rect x="370" y="140" width="60" height="60" rx="8" fill="#C9B49A"/>
+<text x="400" y="470" text-anchor="middle" font-family="Georgia,serif" font-size="30" letter-spacing="8" fill="#F8F5EF">LYRIT</text>
+<text x="400" y="504" text-anchor="middle" font-family="Helvetica,Arial,sans-serif" font-size="14" letter-spacing="3" fill="#F8F5EF" opacity=".8">SHAMPOO</text></g>
+<g transform="translate(420 140) scale(.85)"><rect x="320" y="330" width="160" height="340" rx="30" fill="#B88A4A"/><rect x="370" y="270" width="60" height="70" fill="#B88A4A"/><rect x="355" y="180" width="90" height="100" rx="14" fill="#282522"/><ellipse cx="400" cy="175" rx="30" ry="22" fill="#282522"/>
+<text x="400" y="470" text-anchor="middle" font-family="Georgia,serif" font-size="30" letter-spacing="8" fill="#F8F5EF">LYRIT</text>
+<text x="400" y="504" text-anchor="middle" font-family="Helvetica,Arial,sans-serif" font-size="14" letter-spacing="3" fill="#F8F5EF" opacity=".8">OIL</text></g>
+<g transform="translate(-60 260) scale(.75)"><rect x="260" y="420" width="280" height="230" rx="30" fill="#F8F5EF"/><rect x="250" y="370" width="300" height="70" rx="20" fill="#173D2F"/>
+<text x="400" y="540" text-anchor="middle" font-family="Georgia,serif" font-size="30" letter-spacing="8" fill="#173D2F">LYRIT</text>
+<text x="400" y="574" text-anchor="middle" font-family="Helvetica,Arial,sans-serif" font-size="14" letter-spacing="3" fill="#173D2F" opacity=".8">MASK</text></g>
+<path d="M40 780 q60 -80 120 -40 t120 -20" stroke="#C9B49A" stroke-width="2" fill="none" opacity=".5"/>
+</svg>
