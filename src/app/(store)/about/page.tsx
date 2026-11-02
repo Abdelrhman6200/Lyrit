@@ -18,7 +18,7 @@ export default async function AboutPage() {
           <Link href="/shop" className="btn-primary mt-4">Discover the collection</Link>
         </div>
         <div className="relative aspect-[4/5] overflow-hidden rounded-[1.5rem] bg-beige">
-          <Media src="/images/about.svg" alt="LYRIT hair care bottles arranged on a stone surface" fill sizes="(min-width:1024px) 50vw, 100vw" className="object-cover" />
+          <Media src="/images/photos/about.webp" alt="Long, glossy, healthy wavy hair" fill sizes="(min-width:1024px) 50vw, 100vw" className="object-cover" />
         </div>
       </div>
     </div>
