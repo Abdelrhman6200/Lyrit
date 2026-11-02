@@ -61,3 +61,10 @@ These are all the photos the storefront needs to replace the current illustrated
 - 5 homepage and editorial photos
 
 Name files as above (for example `argan-repair-shampoo-1.jpg`). They can be uploaded through the admin, or dropped into `public/images/` so the developer can swap them in.
+
+## Importing photos
+Put the files in one folder, named as above. Category images go in a `categories/` subfolder or use a `category-<slug>` prefix. Then run:
+```bash
+node scripts/import-photos.mjs ./my-photos
+```
+The script resizes and optimises the images to WebP in `public/images/photos/`, links them to the right products, categories and homepage blocks in the database, and the seed then uses them for fresh installs. Add `--no-db` to only convert the files.

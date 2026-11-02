@@ -4,6 +4,10 @@
  */
 import { PrismaClient, type Prisma } from "@prisma/client";
 import bcrypt from "bcryptjs";
+import { existsSync } from "fs";
+
+/** Prefer real photography (public/images/photos, see scripts/import-photos.mjs) over SVG placeholders. */
+const img = (photo: string, fallback: string) => (existsSync(`public${photo}`) ? photo : fallback);
 
 const db = new PrismaClient();
 const EGP = (pounds: number) => pounds * 100;
@@ -203,7 +207,7 @@ async function main() {
   for (const [i, c] of CATEGORIES.entries()) {
     const cat = await db.category.upsert({
       where: { slug: c.slug },
-      create: { ...c, sortOrder: i, thumbnailUrl: `/images/categories/${c.slug}.svg` },
+      create: { ...c, sortOrder: i, thumbnailUrl: img(`/images/photos/categories/${c.slug}.webp`, `/images/categories/${c.slug}.svg`) },
       update: {},
     });
     catIds[c.slug] = cat.id;
@@ -231,8 +235,8 @@ async function main() {
         categories: { create: [{ categoryId: catIds[p.category] }] },
         images: {
           create: [
-            { url: `/images/products/${p.slug}-1.svg`, altText: `${p.name} bottle`, sortOrder: 0 },
-            { url: `/images/products/${p.slug}-2.svg`, altText: `${p.name} alternate view`, sortOrder: 1 },
+            { url: img(`/images/photos/products/${p.slug}-1.webp`, `/images/products/${p.slug}-1.svg`), altText: `${p.name} bottle`, sortOrder: 0 },
+            { url: img(`/images/photos/products/${p.slug}-2.webp`, `/images/products/${p.slug}-2.svg`), altText: `${p.name} alternate view`, sortOrder: 1 },
           ],
         },
       },
